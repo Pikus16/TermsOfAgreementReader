@@ -90,8 +90,15 @@ public class Displayer extends javax.swing.JFrame {
         // TODO add your handling code here:
         String url = inputURL.getText();
         String html = HTMLReader.getHTML(url);
-        ArrayList<ArrayList<Integer>> redFlags= new ArrayList<ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer>> redFlags= HTMLReader.findRedFlag(html);
         
+        String output = "";
+        for (int i =0; i < redFlags.size(); i++)
+        {
+            ArrayList<Integer> sub = redFlags.get(i);
+            output += html.substring(sub.get(0),sub.get(1)) + "   ";
+        }
+        inputURL.setText(output);
     }//GEN-LAST:event_submitURLActionPerformed
 
     /**

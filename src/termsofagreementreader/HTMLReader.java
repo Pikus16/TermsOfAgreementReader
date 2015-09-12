@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 /**
  *
  * @author benka
@@ -32,10 +33,35 @@ public class HTMLReader {
             
         }
         catch (MalformedURLException me){
-            System.out.println("ERROR");
+            System.out.println("ERROR1");
         }
         catch (IOException me){
             System.out.println("ERROR");
+        }
+        return result;
+    }
+    
+   public static ArrayList<ArrayList<Integer>> findRedFlag(String HTML)
+    { 
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+       
+        HTML = HTML.toLowerCase();
+        ArrayList<String> keywords = new ArrayList<String>();
+        keywords.add("grant us");  
+        keywords.add("$");
+        keywords.add("may pay");
+        keywords.add("collect");
+        keywords.add("");
+        for (String currentWord: keywords)
+        {
+             ArrayList<Integer> inner = new ArrayList<Integer>();
+            if (HTML.contains(currentWord))
+            {
+                inner.add(HTML.indexOf(currentWord));
+                inner.add(HTML.indexOf(currentWord) + currentWord.length());
+                result.add(inner);
+            }
+            
         }
         return result;
     }
