@@ -12,11 +12,13 @@ import java.util.ArrayList;
  */
 public class Displayer extends javax.swing.JFrame {
 
+   
     /**
      * Creates new form Displayer
      */
     public Displayer() {
         initComponents();
+       
         this.getContentPane().setBackground(new Color(50,200,250));
     }
 
@@ -33,10 +35,14 @@ public class Displayer extends javax.swing.JFrame {
         askForURL = new javax.swing.JLabel();
         submitURL = new javax.swing.JButton();
         inputURL = new javax.swing.JTextField();
+        wait = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
+        askForName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(50, 150, 255));
+        setResizable(false);
 
         title.setFont(new java.awt.Font("Ubuntu", 3, 36)); // NOI18N
         title.setText("Welcome to the Terms of Conditions Scanner");
@@ -50,6 +56,18 @@ public class Displayer extends javax.swing.JFrame {
             }
         });
 
+        inputURL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputURLActionPerformed(evt);
+            }
+        });
+
+        wait.setForeground(new java.awt.Color(250, 0, 0));
+        wait.setText("Please wait for results to load.");
+        wait.setVisible(false);
+
+        name.setText("Please input the name of the company of these Terms and Services");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -60,13 +78,20 @@ public class Displayer extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(346, 346, 346)
+                        .addComponent(submitURL, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(302, 302, 302)
+                        .addComponent(wait))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(178, 178, 178)
+                        .addComponent(name))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(136, 136, 136)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(askForURL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(inputURL)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(submitURL, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(inputURL)
+                            .addComponent(askForName))))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -74,13 +99,19 @@ public class Displayer extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(title)
-                .addGap(69, 69, 69)
+                .addGap(18, 18, 18)
                 .addComponent(askForURL)
-                .addGap(43, 43, 43)
+                .addGap(18, 18, 18)
                 .addComponent(inputURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(30, 30, 30)
+                .addComponent(name)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(askForName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addComponent(submitURL, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(wait, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -88,19 +119,32 @@ public class Displayer extends javax.swing.JFrame {
 
     private void submitURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitURLActionPerformed
         // TODO add your handling code here:
-        String url = inputURL.getText();
-        String html = HTMLReader.getHTML(url);
-        ArrayList<ArrayList<Integer>> redFlags= HTMLReader.findRedFlag(html);
+         wait.setVisible(true);
+                 run();
         
-        String output = "";
-        for (int i =0; i < redFlags.size(); i++)
-        {
-            ArrayList<Integer> sub = redFlags.get(i);
-            output += html.substring(sub.get(0),sub.get(1)) + "   ";
-        }
-        inputURL.setText(output);
+       
     }//GEN-LAST:event_submitURLActionPerformed
 
+    public void run()
+    {
+      String url = inputURL.getText();
+        String html = HTMLReader.getHTML(url);
+        String name = askForName.getText();
+    
+       ArrayList<String> output = HTMLReader.findRedFlag(html, name);
+       
+      Keywords.keywordsHolder(output);
+        Results a = new Results();
+        String[] empty = new String[5];
+        a.main(empty);
+        this.dispose();
+    }
+    private void inputURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputURLActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_inputURLActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -137,9 +181,12 @@ public class Displayer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField askForName;
     private javax.swing.JLabel askForURL;
     private javax.swing.JTextField inputURL;
+    private javax.swing.JLabel name;
     private javax.swing.JButton submitURL;
     private javax.swing.JLabel title;
+    private javax.swing.JLabel wait;
     // End of variables declaration//GEN-END:variables
 }

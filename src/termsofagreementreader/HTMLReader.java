@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.ArrayList;;
 /**
  *
  * @author benka
  */
 public class HTMLReader {
-    
+    public String name;
     public static String getHTML(String url)
     {
         String result = "";
@@ -41,28 +41,135 @@ public class HTMLReader {
         return result;
     }
     
-   public static ArrayList<ArrayList<Integer>> findRedFlag(String HTML)
-    { 
-        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+    public static String removeTags(String HTML, String name)
+    {
+        
+       //HTML = HTML.replaceAll(">"," ");
+         //HTML = HTML.replaceAll("<"," ");
+         //HTML = HTML.replaceAll("ol"," ");
+          //HTML = HTML.replaceAll("li"," ");
+        //String zero = HTML.replaceAll("<", " ");
+        //String first = zero.replaceAll("<.*?>", " ");
+       // String second = zero.replaceAll("&quot","\"");
+        
+        //String third = second.replaceAll("\\<.*?>"," ");
+        
+          HTML = HTML.replaceAll("<a"," ");
+         HTML = HTML.replaceAll(">"," ");
+         HTML = HTML.replaceAll("<"," ");
+        String[] finalOne = HTML.split(" "); 
+        String result = "";
+        for (int i = 0; i < finalOne.length; i++)
+        {
+            if (!(Dictionary.check(finalOne[i], name)))
+                finalOne[i] = "";
+            result += finalOne[i] + " ";
+            if (result.length() > 1 && result.substring(result.length()-2).equals(" ."))
+                result+= " ";
+        }
+        //System.out.println("Removed Tags: " + result);
+        
        
+        return result;
+    }
+     
+    
+    
+    
+   public static ArrayList<String> findRedFlag(String HTML, String name)
+    {   
+        
+        ArrayList<String> result = new ArrayList<String>();
+        HTML = removeTags(HTML, name);
         HTML = HTML.toLowerCase();
         ArrayList<String> keywords = new ArrayList<String>();
         keywords.add("grant us");  
-        keywords.add("$");
-        keywords.add("may pay");
+        keywords.add("give us"); 
+        keywords.add("give " + name);
+        keywords.add("grant " + name);
+        keywords.add("information");
+        keywords.add("pay");
         keywords.add("collect");
-        keywords.add("");
+        keywords.add("intellectual property");
+        
+        
+        
         for (String currentWord: keywords)
         {
-             ArrayList<Integer> inner = new ArrayList<Integer>();
+            
             if (HTML.contains(currentWord))
             {
-                inner.add(HTML.indexOf(currentWord));
-                inner.add(HTML.indexOf(currentWord) + currentWord.length());
-                result.add(inner);
-            }
+                 int start, end;
+                start = HTML.indexOf(currentWord);
+                end = (HTML.indexOf(currentWord) + currentWord.length());
+                int i = 0;
+                boolean notTags = true;
+                String current = HTML.substring(start,end);
+                try{
+                while (notTags)
+                {
+                    String letter = HTML.substring(start-1,start);
+                    String letterTwo = HTML.substring(start-2,start);
+                    if(letter.equals(">") || letter.equals("<") || letter.equals("."))
+                    {
+                            break;      
+                    }
+                     // if (letterTwo.equals("ol") || letterTwo.equals("li") || letterTwo.equals("br") )
+                    //{
+                      //  break;
+                    //}
+                     
+                    else
+                    
+                    {     current = letter+current;
+                        start--;
+                     //System.out.println(current);
+                    }
+                }
+                
+               // System.out.println();
+                }
+            catch(Exception e){}
+                notTags = true;
+                i = 0;
+                while (notTags)
+                {
+                    String letter = HTML.substring(end,end+1);
+                    String letterTwo = HTML.substring(end,end+2);
+                    if (letter.equals(".") || letter.equals("  "))
+                    {
+                           break;      
+                    }
+                    else if (letterTwo.equals("ol") || letterTwo.equals("li") || letterTwo.equals("br") )
+                    {
+                        break;
+                    }
+                  else
+                    {
+                        current = current + letter;
+                        end++;
+                    }       
+                    // System.out.println(current);
+                    
+                }
+                try{
+                    boolean matches =false;
+                    for (String a: result)
+                    {
+                        if (current.equals("a"))
+                            matches = true;
+                    }
+                    if (!matches)
+                        result.add(current);
+                }
+                catch (Exception e){}
+                
             
+            }
         }
+        
+        
         return result;
     }
 }
+
