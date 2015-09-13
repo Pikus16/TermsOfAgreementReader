@@ -35,14 +35,6 @@
                       <Component id="title" min="-2" pref="769" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="346" max="-2" attributes="0"/>
-                      <Component id="submitURL" min="-2" pref="117" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="302" max="-2" attributes="0"/>
-                      <Component id="wait" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="178" max="-2" attributes="0"/>
                       <Component id="name" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -53,6 +45,14 @@
                           <Component id="inputURL" max="32767" attributes="0"/>
                           <Component id="askForName" max="32767" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="changeInput" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="332" max="-2" attributes="0"/>
+                      <Component id="submitURL" min="-2" pref="117" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="46" max="32767" attributes="0"/>
@@ -74,9 +74,9 @@
               <Component id="askForName" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               <Component id="submitURL" min="-2" pref="51" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="wait" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace pref="14" max="32767" attributes="0"/>
+              <Component id="changeInput" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -108,23 +108,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inputURLActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="wait">
-      <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="fa" type="rgb"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Please wait for results to load."/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="wait.setVisible(false);"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JLabel" name="name">
       <Properties>
         <Property name="text" type="java.lang.String" value="Please input the name of the company of these Terms and Services"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="askForName">
+    </Component>
+    <Component class="javax.swing.JButton" name="changeInput">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Click here to submit as text"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changeInputActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

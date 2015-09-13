@@ -87,6 +87,12 @@ public class HTMLReader {
         keywords.add("give us"); 
         keywords.add("give " + name);
         keywords.add("grant " + name);
+        keywords.add("allow us"); 
+        keywords.add("allow " + name);
+        keywords.add("credit card"); 
+        keywords.add("social security");
+        keywords.add("location"); 
+        keywords.add("contact");
         keywords.add("information");
         keywords.add("pay");
         keywords.add("collect");
@@ -156,13 +162,13 @@ public class HTMLReader {
                     boolean matches =false;
                     for (String a: result)
                     {
-                        if (current.equals("a"))
+                        if (current.substring(0,10).equals(a.substring(0,10)))
                             matches = true;
                     }
                     if (!matches)
                         result.add(current);
                 }
-                catch (Exception e){}
+                catch (Exception e){result.add(current);}
                 
             
             }
